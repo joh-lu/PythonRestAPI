@@ -1,0 +1,165 @@
+openapi: '3.0.2'
+info: 
+  description: Ausgabe von To-Do-Listen, Einträgen und Usern
+  title: Todo-List-Ausgabe
+  version: '1.0'
+  license: 
+        name: Apache 2.0
+        url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+- url: http://127.0.0.1:5000/
+  description: Lokaler Server
+
+paths:
+  /todo-list:
+    get:
+      summary: Gibt alle vorhandenen ToDo-Listen aus
+      responses:
+        '405':
+          description: Invalid input
+    post:
+      summary: Fügt eine neue Liste hinzu
+      responses:
+        '405':
+          description: Invalid input
+
+  /todo-list/{list_id}:
+    get:
+      summary: Gibt alle Einträge für eine Liste aus
+      parameters:
+        - name: list_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '405':
+          description: Invalid input
+    delete:
+      summary: Löscht Einträge aus der Liste
+      parameters:
+        - name: list_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '405':
+          description: Invalid input
+  
+  /todo-list/{list_id}/entry:
+    post:
+      summary: Fügt einen neuen Eintrag einer Liste hinzu
+      parameters:
+        - name: list_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '405':
+          description: Invalid input
+          
+  /todo-list/{list_id}/entry/{entry_id}:
+    put:
+      summary: Aktualiseirt einen bestehenden Eintrag
+      parameters:
+        - name: list_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: entry_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '405':
+          description: Invalid input
+    
+    delete:
+      summary: Löscht einen Eintrag aus der Liste
+      parameters:
+        - name: list_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: entry_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '405':
+          description: Invalid input
+          
+  /user:
+    get:
+      summary: Zeigt eine Liste aller Benutzer
+      responses:
+        '405':
+          description: Invalid input
+      
+    post:
+      summary: Fügt einen neuen Benutzer hinzu
+      responses:
+        '405':
+          description: Invalid input
+          
+  /user/{user_id}:
+    delete:
+      summary: Löscht einen Benutzer
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '405':
+          description: Invalid input
+          
+          
+components:
+  schemas:
+    ToDo:
+      type: object
+      properties: 
+        id: 
+          type: string
+          format: uuid
+        message: 
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+          
+    Todo-List:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        todo:
+           $ref: '#/components/schemas/ToDo'
+          
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
