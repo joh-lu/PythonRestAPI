@@ -4,16 +4,16 @@ import uuid
 app = Flask(__name__)
 
 # create unique id for lists, users, entries
-user_id_bob = uuid.uuid4()
-user_id_alice = uuid.uuid4()
-user_id_eve = uuid.uuid4()
+user_id_bob = str(uuid.uuid4())
+user_id_alice = str(uuid.uuid4())
+user_id_eve = str(uuid.uuid4())
 todo_list_1_id = '1318d3d1-d979-47e1-a225-dab1751dbe75'
 todo_list_2_id = '3062dc25-6b80-4315-bb1d-a7c86b014c65'
 todo_list_3_id = '44b02e00-03bc-451d-8d01-0c67ea866fee'
-todo_1_id = uuid.uuid4()
-todo_2_id = uuid.uuid4()
-todo_3_id = uuid.uuid4()
-todo_4_id = uuid.uuid4()
+todo_1_id = str(uuid.uuid4())
+todo_2_id = str(uuid.uuid4())
+todo_3_id = str(uuid.uuid4())
+todo_4_id = str(uuid.uuid4())
 
 # define internal data structures with example data
 user_list = [
@@ -52,8 +52,7 @@ def handle_list(list_id):
             break
     # if the given list id is invalid, return status code 404
     if not list_item:
-        return 'BLABLA'
-        #abort(404)
+        return 200
     if request.method == 'GET':
         # find all todo entries for the todo list with the given id
         print('Returning todo list...')
@@ -90,12 +89,19 @@ def postentry():
 def putentryid():
     return "PUTENTRYID"
 
+"""
+
 #löscht einen Eintrag
 @app.route("/todo-list/<list_id>/entry/<entry_id>", methods=['DELETE'])
-def deleteentryid():
-    return "DELETEENTRYID"
+def deleteentryid(entry_id):
+    for e in user_list:
+        if e["id"] == entry_id:
+            user_list.remove(e)
+            return '', 200
+    
+    return 404
 
-"""
+
 #shows all user
 @app.route("/user", methods=['GET'])
 def getuser():
@@ -108,11 +114,19 @@ def getuser():
 def postuser():
     return "POSTUSER"
 
+"""
+
 #löscht einen User
 @app.route("/user/<user_id>", methods=['DELETE'])
-def deleteuser():
-    return "DELETEUSER"
- """
+def deleteuser(user_id):
+    for u in user_list:
+        if u["id"] == user_id:
+            user_list.remove(u)
+            return '', 200
+    
+    return 404
+    
+
 
 #Server starten
 if __name__ == '__main__':
